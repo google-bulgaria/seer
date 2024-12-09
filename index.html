@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета: Четене на мисли</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(120deg, #6a11cb, #2575fc);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        #survey-form {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 20px 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 10px #2575fc;
+        }
+
+        button {
+	    display: block;
+            background: #2575fc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+	    margin: 10px auto 0;
+        }
+
+        button:hover {
+            background: #1b5bbd;
+        }
+
+        .question {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .question.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <form id="survey-form">
+        <h1>Анкета</h1>
+        <label for="favorite-color">Намисли си цвят?</label>
+        <input type="text" id="favorite-color" name="favoriteColor" placeholder="Напр. червен" required>
+
+        <label for="favorite-item">Намисли си предмет?</label>
+        <input type="text" id="favorite-item" name="favoriteItem" placeholder="Напр. книга" required>
+
+        <label for="favorite-number">Намисли си число от 1 до 1000?</label>
+        <input type="number" id="favorite-number" name="favoriteNumber" placeholder="Напр. 999" required>
+        
+   <button type="submit">Готов съм</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        // Инициализиране с публичния ключ на EmailJS
+        emailjs.init("TlEa3CKwVPcFf_gKv");
+
+        // Обработка на събитие "submit" на формата
+        document.getElementById("survey-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Предотвратява презареждането на страницата
+
+            // Събиране на данни от формата
+            const favoriteColor = document.getElementById("favorite-color").value;
+            const favoriteItem = document.getElementById("favorite-item").value;
+            const favoriteNumber = document.getElementById("favorite-number").value;
+
+            // Създаване на обект с данни за изпращане
+            const formData = {
+                favorite_color: favoriteColor,
+                favorite_item: favoriteItem,
+                favorite_number: favoriteNumber
+            };
+
+            // Изпращане на данните чрез EmailJS
+            emailjs.send("service_dgk6x6n", "template_e0y4inu", formData)
+                .then(function(response) {
+                    alert("Готово!");
+                }, function(error) {
+                    alert("Грешка при изпращането: " + error.text);
+                });
+        });
+    </script>
+</body>
+</html>
